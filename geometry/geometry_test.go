@@ -38,7 +38,10 @@ func TestRadsToXYZ(t *testing.T) {
         t.Errorf("Result length incorrect (%d elements came back; we wanted %d)", len(xyzs), len(pts))
     }
     for i := range(xyzs) {
-        if xyzs[i] != expected[i] {
+        dx := math.Abs(xyzs[i].X - expected[i].X)
+        dy := math.Abs(xyzs[i].Y - expected[i].Y)
+        dz := math.Abs(xyzs[i].Z - expected[i].Z)
+        if dx > 1.0e-15 || dy > 1.0e-15 || dz > 1.0e-15 {
             t.Errorf("Actual result (%v) did not match expected result (%v)", xyzs[i], expected[i])
         }
     }
