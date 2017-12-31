@@ -46,3 +46,24 @@ func TestRadsToXYZ(t *testing.T) {
         }
     }
 }
+
+func TestGreatArcAngle(t *testing.T) {
+    const earthRadius = 6371000.0 // Earth's radius in meters
+    var cases = []struct {
+        lat1, long1 float64 // input: latitude and longitude #1
+        lat2, long2 float64 // input: latitude and longitude #2
+        expected float64 // expected: the angle between them
+    } {
+        { 0.0, 0.0, math.Pi / 2.0, 0.0, math.Pi / 2.0 * earthRadius },
+        { 0.6512790002530597, -2.1275756615226147, 0.6512826479911965, -2.1275634791244356, 66.0 },
+    }
+
+    for _, example := range(cases) {
+        angle := GreatArcAngle(LatLong{example.lat1, example.long1}, LatLong{example.lat2, example.long2})
+        distance := math.Abs(angle * earthRadius) // in meters
+        if math.Abs(distance - example.expected) > 0.5 {
+            t.Errorf("Great Arc Angle for (%g,%g)--(%g,%g) calculated as %g; expected %g",
+                     example.lat1, example.long1, example.lat2, example.long2, angle, example.expected/earthRadius)
+        }
+    }
+}

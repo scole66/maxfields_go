@@ -46,3 +46,22 @@ func RadsToXYZ(pts []LatLong) []XYZ {
     }
     return rval
 }
+
+// GreatArcAngle, given two points on a sphere (as latitude and longitude, in radians), calculate the angle between
+// them (in a great-arc sense), in radians.
+func GreatArcAngle(x, y LatLong) float64 {
+    deltaLongitude := math.Abs(x.Longitude - y.Longitude)
+    sind := math.Sin(deltaLongitude)
+    cosd := math.Cos(deltaLongitude)
+    cosx := math.Cos(x.Latitude)
+    cosy := math.Cos(y.Latitude)
+    sinx := math.Sin(x.Latitude)
+    siny := math.Sin(y.Latitude)
+
+    // From wikipedia, the article on Great-circle distance
+    part1 := cosy * sind
+    part2 := cosx * siny - sinx * cosy * cosd
+    numer := math.Sqrt(part1*part1 + part2*part2)
+    denom := sinx * siny + cosx * cosy * cosd
+    return math.Atan2(numer, denom)
+}
