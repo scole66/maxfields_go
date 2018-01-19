@@ -5,6 +5,24 @@ import (
 	"testing"
 )
 
+func TestDegreesToRadians(t *testing.T) {
+	var cases = []struct {
+		input   float64 // Input Argument
+		desired float64 // Expected Result
+	}{
+		{0.0, 0.0},
+		{90.0, math.Pi / 2},
+		{-90.0, -math.Pi / 2},
+		{180.0, math.Pi},
+	}
+	for _, testcase := range cases {
+		actual := DegreesToRadians(testcase.input)
+		if actual != testcase.desired {
+			t.Errorf("Saw %v, but wanted %v", actual, testcase.desired)
+		}
+	}
+}
+
 func TestLLtoRads(t *testing.T) {
 	pts := []LatLong{{0.0, 0.0}, {90.0, 0.0}, {-90.0, 0.0}, {0.0, 180.0}}
 	expected := []LatLong{{0.0, 0.0}, {math.Pi / 2, 0.0}, {-math.Pi / 2, 0.0}, {0.0, math.Pi}}

@@ -19,6 +19,12 @@ type XYZ struct {
 	X, Y, Z float64
 }
 
+// DegreesToRadians is just a little conversion routine.
+func DegreesToRadians(angle float64) float64 {
+	const radiansPerDegree = math.Pi / 180.0
+	return angle * radiansPerDegree
+}
+
 // LLtoRads takes a slice of LatLong pairs with units in degrees and converts them into equivalent LatLong pairs with
 // units in radians. This is an in-place conversion.
 func LLtoRads(pts []LatLong) {
